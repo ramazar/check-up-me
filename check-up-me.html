@@ -1,272 +1,197 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>MedGO | Home</title>
-        
-        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Oswald:400,700&display=swap" rel="stylesheet">
-        
-        <style>
-            :root {
-                --primary-blue: #73a3de;
-                --accent-pink: #ff6b6b;
-                --dark-blue: #2c3e50;
-                --light-gray: #f8f9fa;
-                --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedGO | Check-Up Me</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Oswald:400,700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-blue: #73a3de;
+            --accent-pink: #ff6b6b;
+            --dark-blue: #2c3e50;
+            --light-bg: #f4f7f9;
+        }
 
-            body {
-                margin: 0;
-                font-family: 'Roboto', sans-serif;
-                overflow-x: hidden;
-                color: #333;
-            }
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--dark-blue);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
-            /* --- Scroll Animation Classes --- */
-            .reveal {
-                opacity: 0;
-                transform: translateY(30px);
-                transition: var(--transition);
-            }
+        /* Animation */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-            .reveal.active {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .main-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
 
-            /* --- Hero Section --- */
-            .hero {
-                height: 100vh;
-                background: linear-gradient(rgba(115, 163, 222, 0.8), rgba(115, 163, 222, 0.4)), 
-                            url('images/ff8d8bc18ea3d33187ee1aa300a5f9f7.jpeg') center/cover;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                text-align: center;
-                color: white;
-            }
+        .checkup-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 500px;
+            animation: fadeInUp 0.6s ease-out;
+        }
 
-            .hero-content {
-                background: rgba(255, 255, 255, 0.1);
-                backdrop-filter: blur(10px);
-                padding: 3rem;
-                border-radius: 20px;
-                border: 1px solid rgba(255, 255, 255, 0.2);
-                max-width: 800px;
-            }
+        h2 {
+            font-family: 'Oswald', sans-serif;
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary-blue);
+            letter-spacing: 1px;
+        }
 
-            .hero h1 {
-                font-family: 'Oswald', sans-serif;
-                font-size: 4rem;
-                margin: 0;
-                text-transform: uppercase;
-            }
+        .form-group {
+            margin-bottom: 25px;
+        }
 
-            .cta-btn {
-                display: inline-block;
-                margin-top: 20px;
-                padding: 15px 40px;
-                background: var(--accent-pink);
-                color: white;
-                text-decoration: none;
-                border-radius: 50px;
-                font-weight: bold;
-                transition: var(--transition);
-                box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
-            }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
 
-            .cta-btn:hover {
-                transform: scale(1.05);
-                background: #ff5252;
-            }
+        /* Modern Radio Group */
+        .gender-group {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
 
-            /* --- Services Grid --- */
-            .services-container {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 20px;
-                padding: 50px 10%;
-                background: var(--light-gray);
-            }
+        .gender-option {
+            flex: 1;
+            position: relative;
+        }
 
-            .service-card {
-                padding: 40px;
-                text-align: center;
-                border-radius: 15px;
-                color: white;
-                transition: var(--transition);
-                cursor: pointer;
-            }
+        .gender-option input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
 
-            .service-card:hover { transform: translateY(-10px); }
-            .blue-1 { background: #9bb7d4; }
-            .blue-2 { background: #5d8aa8; }
-            .blue-3 { background: #2c5364; }
+        .custom-radio {
+            display: block;
+            text-align: center;
+            padding: 12px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
 
-            /* --- Info Section --- */
-            .info-section {
-                padding: 80px 10%;
-                display: flex;
-                align-items: center;
-                gap: 50px;
-                flex-wrap: wrap;
-            }
+        .gender-option input:checked + .custom-radio {
+            border-color: var(--primary-blue);
+            background-color: rgba(115, 163, 222, 0.1);
+            color: var(--primary-blue);
+            font-weight: bold;
+        }
 
-            .info-text { flex: 1; min-width: 300px; }
-            .info-image { flex: 1; min-width: 300px; border-radius: 20px; overflow: hidden; }
-            .info-image img { width: 100%; transition: 0.5s; }
-            .info-image:hover img { transform: scale(1.1); }
+        /* Age Input */
+        .age-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
 
-            /* --- Team --- */
-            .team-grid {
-                display: flex;
-                justify-content: space-around;
-                flex-wrap: wrap;
-                padding: 50px 5%;
-                text-align: center;
-            }
+        .age-input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+        }
 
-            .member-card img {
-                width: 150px;
-                height: 150px;
-                border-radius: 50%;
-                object-fit: cover;
-                border: 5px solid var(--primary-blue);
-                margin-bottom: 15px;
-            }
+        /* Next Button */
+        .next-btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background-color: var(--primary-blue);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 18px;
+            transition: transform 0.3s, background-color 0.3s;
+            box-shadow: 0 5px 15px rgba(115, 163, 222, 0.3);
+            border: none;
+            cursor: pointer;
+        }
 
-            /* --- Contact Form --- */
-            .contact-wrap {
-                background: var(--dark-blue);
-                color: white;
-                padding: 80px 10%;
-                text-align: center;
-            }
+        .next-btn:hover {
+            background-color: #5d8cc7;
+            transform: translateY(-2px);
+        }
 
-            form {
-                max-width: 600px;
-                margin: 0 auto;
-                display: flex;
-                flex-direction: column;
-                gap: 15px;
-            }
+        footer {
+            background: var(--dark-blue);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
 
-            input, textarea {
-                padding: 15px;
-                border: none;
-                border-radius: 8px;
-                background: rgba(255, 255, 255, 0.1);
-                color: white;
-                border: 1px solid rgba(255, 255, 255, 0.2);
-            }
-
-            input::placeholder, textarea::placeholder { color: #ccc; }
-
-            @media (max-width: 768px) {
-                .hero h1 { font-size: 2.5rem; }
-            }
-        </style>
-    </head>
-    <body>
-
-        <section class="hero">
-            <div class="hero-content reveal">
-                <p>All-inclusive medical packages to meet your every need</p>
-                <h1>Check-Up Me</h1>
-                <a href="check-up-me.html" class="cta-btn">START TEST</a>
-            </div>
-        </section>
-
-        <section class="services-container">
-            <div class="service-card blue-1 reveal">
-                <h3>Check-Up Me</h3>
-                <p>Take a quick medical test today.</p>
-                <a href="check-up-me.html" class="cta-btn">START TEST</a>
-            </div>
-            <div class="service-card blue-2 reveal">
-                <h3>Find a Doctor</h3>
-                <p>Locate the best specialists near you instantly.</p>
-                <a href="Find-a-doctor.html" class="cta-btn">Find</a>
+    <div class="main-container">
+        <div class="checkup-card">
+            <h2>TELL US ABOUT YOU</h2>
             
-            </div>
-            <div class="service-card blue-3 reveal">
-                <h3>Medical Encyclopedia</h3>
-                <p>Your ultimate key to medical knowledge.</p>
-                <a href="Medical-encyclopedia.html" class="cta-btn">Go</a>
-            </div>
-        </section>
-
-        <section class="info-section">
-            <div class="info-text reveal">
-                <h2 style="font-family: Oswald;">MODERN FULL-SERVICE PLATFORM</h2>
-                <p>We believe that health can improve dramatically with the <strong>early detection</strong> of diseases. We <strong>decided</strong> to create this platform to provide high-quality <strong>services</strong> for your overall wellbeing.</p>
-                <ul>
-                    <li>24/7 Availability</li>
-                    <li>Reliable Information</li>
-                    <li>Fast Analysis</li>
-                </ul>
-            </div>
-            <div class="info-image reveal">
-                <img src="images/ff8d8bc18ea3d33187ee1aa300a5f9f7.jpeg" alt="Medical Lab">
-            </div>
-        </section>
-
-        <section style="padding-top: 50px; text-align: center;">
-            <h1 class="reveal" style="font-family: Oswald; color: var(--accent-pink);">OUR TEAM</h1>
-            <div class="team-grid">
-                <div class="member-card reveal">
-                    <img src="images/ram.jpeg" alt="Ram">
-                    <h4>Ram Azar Alzaher</h4>
-                    <p style="color: var(--primary-blue);">Team lead - AI Ethics</p>
+            <form id="checkupForm" action="Diagnose.html">
+                <label>Select Gender</label>
+                <div class="gender-group">
+                    <label class="gender-option">
+                        <input type="radio" name="gender" value="male" required>
+                        <span class="custom-radio">Male</span>
+                    </label>
+                    <label class="gender-option">
+                        <input type="radio" name="gender" value="female">
+                        <span class="custom-radio">Female</span>
+                    </label>
                 </div>
-                <div class="member-card reveal">
-                    <img src="images/Aya.jpg" alt="Aya">
-                    <h4>Aya Al Araj</h4>
-                    <p style="color: var(--primary-blue);">Design Thinking</p>
-                </div>
-                <div class="member-card reveal">
-                    <img src="images/Abda.jpg" alt="Abdalazeez">
-                    <h4>Abdalazeez Haffar</h4>
-                    <p style="color: var(--primary-blue);">Design</p>
-                </div>
-            </div>
-        </section>
 
-        <section class="contact-wrap">
-            <h2 class="reveal" style="font-family: Oswald; text-transform: uppercase;">Get In Touch</h2>
-            <form class="reveal">
-                <input type="text" placeholder="Full Name" required>
-                <input type="email" placeholder="Valid Email Address" required>
-                <textarea placeholder="How can we help you?" rows="5" required></textarea>
-                <button type="submit" class="cta-btn" style="border:none; cursor:pointer;">SUBMIT MESSAGE</button>
+                <div class="form-group">
+                    <label for="age">Your Age</label>
+                    <input type="number" id="age" class="age-input" placeholder="Enter age (e.g. 25)" min="1" max="120" required>
+                </div>
+
+                <button type="submit" class="next-btn">Next Step →</button>
             </form>
-        </section>
+        </div>
+    </div>
 
-        <script>
-            // --- Intersection Observer for Animations ---
-            const observerOptions = {
-                threshold: 0.15
-            };
+    <footer>
+        <p>BETA v.0.1 #teensinai | Medical Prototype 2026</p>
+    </footer>
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                    }
-                });
-            }, observerOptions);
-
-            document.querySelectorAll('.reveal').forEach(el => {
-                observer.observe(el);
-            });
-
-            // --- Form Submission Logic ---
-            document.querySelector('form').addEventListener('submit', function(e) {
+    <script>
+        // Simple validation before going to Diagnose.html
+        document.getElementById('checkupForm').addEventListener('submit', function(e) {
+            const age = document.getElementById('age').value;
+            if (age < 1) {
                 e.preventDefault();
-                alert('Thank you! Your message has been sent successfully.');
-                this.reset();
-            });
-        </script>
-    </body>
-    </html>
+                alert("Please enter a valid age.");
+            }
+        });
+    </script>
+</body>
+</html>
